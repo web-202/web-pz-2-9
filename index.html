@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <title>PZ_2_9</title>
+  <link rel="stylesheet" type="text/css" href="./main.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div id="screen1" class="screen1">
+    <h1 class="title-black">Моя друга гра</h1>
+    <button id="goToScreen2withScreen1" class="button-brawn">Почати гру</button>
+  </div>
+  <div id="screen2" class="screen2">
+    <div class="screen2__l1">
+      <button id="goToScreen1withScreen2" class="button-brawn">Назад</button>
+    </div>
+    <div class="screen2__l2">
+      <div class="gameArea" id="gameArea">
+
+      </div>
+      <div class="buttonArea">
+        <button class="button-brawn" onclick="generateCells()">Почати з початку</button>
+        <div>
+          <img src="./img/gun4.jpg" id="draggable-element" class="draggable" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./index.js"></script>
+</body>
+</html>
