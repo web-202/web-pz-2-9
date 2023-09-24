@@ -72,11 +72,6 @@
   cursor: auto;
 }
 
-.cell-img {
-  width: 100%;
-  height: 100%;
-}
-
 .buttonArea {
   display: flex;
   flex-direction: column;

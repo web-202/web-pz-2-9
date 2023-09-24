@@ -1,12 +1,12 @@
 const gameArea = document.getElementById('gameArea');
-const draggableElement = document.getElementById("draggable-element");
+const generateImgArea = document.getElementById("generateImgArea");
 
 let listOfName = [];
+let correctImageCount = 0;
 let offsetX, offsetY, isDragging = false;
+let draggedImage = null; // Змінна для збереження обраного зображення
 
-draggableElement.addEventListener("mousedown", startDragging);
-document.addEventListener("mousemove", drag);
-document.addEventListener("mouseup", stopDragging);
+
 
 $("#screen2").hide();
 
@@ -20,6 +20,7 @@ $("#goToScreen1withScreen2").click(function () {
   $("#screen1").show();
 });
 
+
 const generateCells = () => {
   listOfName = []
 
@@ -29,10 +30,9 @@ const generateCells = () => {
 
   for (let row = 0; row < 5; row++) {
     for (let col = 0; col < 5; col++) {
-      const cell = document.createElement("div");
+      const cell = document.createElement("img");
       cell.classList.add("cell");
 
-      const img = document.createElement('img');
       let imgName = '';
 
       while (true) {
@@ -51,45 +51,49 @@ const generateCells = () => {
         }
       }
 
-      listOfName.push(imgName)
-      img.src = `./img/${imgName}.jpg`;
-      img.classList.add("cell-img")
+      listOfName.push(imgName);
 
-      cell.appendChild(img);
+      cell.src = `./img/${imgName}.jpg`;
+
       gameArea.appendChild(cell);
     }
   }
   console.log(listOfName)
+  generateFindImg();
 }
 
+const generateFindImg = () => {
+  const img = document.createElement('img');
+  img.classList.add('draggable');
+  img.src = `./img/${listOfName[0]}.jpg`;
 
 
+  img.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    offsetX = e.clientX - img.getBoundingClientRect().left;
+    offsetY = e.clientY - img.getBoundingClientRect().top;
+    img.style.cursor = "grabbing";
 
-function startDragging(e) {
-  isDragging = true;
-  offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
-  offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
-  draggableElement.style.cursor = "grabbing";
+    img.ondragstart = function() {
+      return false;
+    };
+  });
 
-  draggableElement.ondragstart = function() {
-    return false;
-  };
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    const x = e.clientX - offsetX;
+    const y = e.clientY - offsetY;
+
+    img.style.left = `${x}px`;
+    img.style.top = `${y}px`;
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    img.style.cursor = "grab";
+
+    img.ondragstart = null;
+  });
+  generateImgArea.appendChild(img);
 }
-
-function drag(e) {
-  if (!isDragging) return;
-
-  const x = e.clientX - offsetX;
-  const y = e.clientY - offsetY;
-
-  draggableElement.style.left = `${x}px`;
-  draggableElement.style.top = `${y}px`;
-}
-
-function stopDragging() {
-  isDragging = false;
-  draggableElement.style.cursor = "grab";
-
-  draggableElement.ondragstart = null;
-}
-
