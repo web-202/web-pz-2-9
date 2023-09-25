@@ -1,11 +1,11 @@
 const gameArea = document.getElementById('gameArea');
 const generateImgArea = document.getElementById("generateImgArea");
+const countAnswers = document.getElementById("countAnswers");
+const body = document.getElementById("body");
 
 let listOfName = [];
+let listOfDraggableImg = [];
 let correctImageCount = 0;
-let offsetX, offsetY, isDragging = false;
-let draggedImage = null; // Змінна для збереження обраного зображення
-
 
 
 $("#screen2").hide();
@@ -13,16 +13,21 @@ $("#screen2").hide();
 $("#goToScreen2withScreen1").click(function () {
   $("#screen1").hide();
   $("#screen2").show();
+  body.style.background = 'gray';
+  generateCells();
 });
 
 $("#goToScreen1withScreen2").click(function () {
   $("#screen2").hide();
   $("#screen1").show();
+  body.style.background = 'white'
 });
 
 
 const generateCells = () => {
-  listOfName = []
+  listOfName = [];
+  correctImageCount = 0;
+  countAnswers.textContent = correctImageCount;
 
   while (gameArea.firstChild) {
     gameArea.removeChild(gameArea.firstChild);
@@ -30,10 +35,9 @@ const generateCells = () => {
 
   for (let row = 0; row < 5; row++) {
     for (let col = 0; col < 5; col++) {
-      const cell = document.createElement("img");
-      cell.classList.add("cell");
 
-      let imgName = '';
+
+      let imgSrc = '';
 
       while (true) {
         let randomVariant = Math.floor(Math.random() * 3) + 1;
@@ -44,18 +48,40 @@ const generateCells = () => {
         if (randomVariant === 3)  typeImg = 'equipment';
 
         randomVariant = Math.floor(Math.random() * 13) + 1;
-        imgName = `${typeImg+randomVariant}`;
+        imgSrc = `${typeImg+randomVariant}`;
 
-        if (!listOfName.includes(imgName)){
+        if (!listOfName.includes(imgSrc)){
           break;
         }
       }
 
-      listOfName.push(imgName);
+      listOfName.push(imgSrc);
 
-      cell.src = `./img/${imgName}.jpg`;
 
-      gameArea.appendChild(cell);
+      const cell = $(`<img class="cell" src="./img/${imgSrc}.jpg" alt="img"/>`)
+        .droppable({
+          drop: function (event, ui) {
+            imgSrc = `./img/${imgSrc}.jpg`;
+            const draggedImage = ui.draggable;
+            const draggedSrc = draggedImage.attr("src")
+            console.log(draggedSrc)
+            console.log(imgSrc)
+
+            if (draggedSrc === imgSrc) {
+              correctImageCount++;
+              countAnswers.textContent = correctImageCount;
+              generateFindImg();
+            }else {
+              alert("Не вірний вибір!!");
+              generateCells();
+            }
+            if (correctImageCount === 10) {
+              alert("Вітаю ви виграли")
+              generateCells();
+            }
+          }
+        });
+      gameArea.append(cell[0]);
     }
   }
   console.log(listOfName)
@@ -63,37 +89,19 @@ const generateCells = () => {
 }
 
 const generateFindImg = () => {
-  const img = document.createElement('img');
-  img.classList.add('draggable');
-  img.src = `./img/${listOfName[0]}.jpg`;
+  let imgName = '';
+  while (true) {
+    let randomVariant = Math.floor(Math.random() * listOfName.length) + 1;
+    imgName = listOfName[randomVariant-1]
+    if (!listOfDraggableImg.includes(imgName)){
+      break;
+    }
+  }
 
+  listOfDraggableImg.push(imgName);
 
-  img.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    offsetX = e.clientX - img.getBoundingClientRect().left;
-    offsetY = e.clientY - img.getBoundingClientRect().top;
-    img.style.cursor = "grabbing";
-
-    img.ondragstart = function() {
-      return false;
-    };
-  });
-
-  document.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-
-    const x = e.clientX - offsetX;
-    const y = e.clientY - offsetY;
-
-    img.style.left = `${x}px`;
-    img.style.top = `${y}px`;
-  });
-
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    img.style.cursor = "grab";
-
-    img.ondragstart = null;
-  });
-  generateImgArea.appendChild(img);
+  $(".draggable").remove()
+  const img = $(`<img src="./img/${imgName}.jpg" alt="img" class="draggable"/>`)
+  img.draggable()
+  generateImgArea.append(img[0])
 }
