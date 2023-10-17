@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <title>GAME</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+<body id="body">
+  <div id="screen1" class="screen1">
+    <h1>Моя друга гра</h1>
+    <h1>Твоя задача вибрати 10 однакових картинок. УДАЧІ!!</h1>
+    <button id="perehidz2v1" class="start-Button">Почати гру</button>
+  </div>
+  <div id="screen2" class="screen2">
+   
+    <div class="screen2__l2">
+      <div>
+        <h>Вірних відповідей: <span id="counts"></span></h>
+        <div class="kvadrat" id="kvadrat">
+
+        </div>
+      </div>
+      <div class="repeat">
+        <button class="repeat-button" onclick="createGameBoard()">Почати з початку</button>
+        <div id="imgtable">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./index.js"></script>
+</body>
+</html>
+
+
+
