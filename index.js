@@ -40,13 +40,14 @@ function putGame(image) {
       const droppedImageSrc = ui.helper.find("img").attr("src");
       if (droppedImageSrc.includes(imagePath)) {
         score++;
+        ui.helper.find("img").addClass("hidden-image");
       } else {
           msgeShow(`Нажаль, ви програли:(`);
         initializeGame();
         return;
       }
 
-      if (score === 10) {
+      if (score === 3) {
           msgeShow(`Вітаю! Ви виграли!`);
       }
 

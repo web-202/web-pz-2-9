@@ -52,4 +52,7 @@ body{
 .restart-button:hover {
     background-color: #45a049; 
 }
+.hidden-image{
+    display: none;
+}
   
