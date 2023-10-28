@@ -68,32 +68,32 @@ $(document).ready(function () {
         $gameBoard.removeClass("hovered");
         const draggedImageSrc = event.originalEvent.dataTransfer.getData("text/plain");
         const $cell = $(this);
-
+    
         if ($cell.is("img")) {
             const cellSrc = $cell.attr("src");
-
+    
             if (gameImages.includes(draggedImageSrc) && draggedImageSrc === cellSrc) {
-                alert("Спіставленно правильно");
+                alert("Спіставлено правильно");
                 gameImages.splice(gameImages.indexOf(draggedImageSrc), 1);
                 currentImageIndex++;
-
-                $cell.attr("src", "");
-                $cell.css("background-color", "lightgray");
-
+    
+                $cell.css("background-color", "green");
+    
                 $(".image").each(function () {
                     if ($(this).attr("src") === draggedImageSrc) {
                         $(this).remove();
                     }
                 });
-
+    
                 if (currentImageIndex === 10) {
-                    alert("Вітаю, ви перемогли!");
+                    alert("Вітаємо, ви перемогли!");
                 }
             } else {
                 alert("Не правильно співставили");
             }
         }
     }
+    
 
     function resetGame() {
         $gameBoard.empty();
