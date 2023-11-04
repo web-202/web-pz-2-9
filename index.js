@@ -146,7 +146,7 @@ $(document).ready(function () {
                 ui.position.top < dropTargetRect.bottom &&
                 draggedBottom > dropTargetRect.top
             ) {
-                showMessage('Вірно!');
+                showMessage('Вітаю!Ви виграли!');
                 $("#start-again").trigger('click');
 
 
