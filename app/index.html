@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../app/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>pz-2-9</title>
+</head>
+
+<body id="body">
+
+    <div id="main-screen" class="screen1">
+        <h1 class="main-title">Моя друга гра!</h1>
+        <button id="go-to-game" class="main-button btn">Почати гру</button>
+    </div>
+
+
+    <div id="game-screen" class="screen2">
+        <div class="screen2__level1">
+            <button id="go-back" class="sub-button btn">Назад</button>
+        </div>
+
+        <div class="screen2__level2">
+            <div>
+                
+                <div class="game-area" id="game-area"></div>
+            </div>
+
+            <div class="button-area">
+                <button class="sub-buttonn btn" onclick="generateCells()">Почати з початку</button>
+                <div id="image-generation-area"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="win-modal" class="modal">
+        
+            <p>Вітаю, ви виграли!</p>
+            <button class="modal-button btn" id="close-win-button">Добре</button>
+        
+    </div>
+
+    <div id="lose-modal" class="modal">
+        
+            <p>Ви програли!</p>
+            <button class="modal-button btn" id="close-lose-button">Добре</button>
+        
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="../app/app.js"></script>
+</body>
+
+</html>
