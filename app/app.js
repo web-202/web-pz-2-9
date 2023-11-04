@@ -80,7 +80,7 @@ const generateCells = () => {
                             openModal("lose-modal");
                             generateCells();
                         }
-                        if (correctImageCount === 1) {
+                        if (correctImageCount === 10) {
                             openModal("win-modal");
                             generateCells();
                         }
