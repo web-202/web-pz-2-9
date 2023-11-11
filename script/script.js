@@ -92,12 +92,12 @@ const restartGame = () => {
     const exampleDiv = document.createElement('div');
     exampleDiv.className = 'example';
 
-    const numbers = Array.from({ length: 20 }, (_, index) => index + 1);
+    const numbers = Array.from({ length: 25 }, (_, index) => index + 1);
     numbers.sort(() => Math.random() - 0.5);
 
     exampleArray = [...numbers].sort(() => Math.random() - 0.5)
 
-    for (let index = 0; index < 20; index++) {
+    for (let index = 0; index < 25; index++) {
         let gameElementDiv = document.createElement('div');
         gameElementDiv.className = 'game__element';
         let imgElementDiv = document.createElement('img');
@@ -130,6 +130,60 @@ const restartGame = () => {
     newGame()
 }
 const addEventForItem = () => {
+    document.querySelectorAll('.game__element > img').forEach(item => {
+        item.draggable = true;
+        item.addEventListener('dragstart', (event) => {
+            event.dataTransfer.setData('text/plain', item.src);
+        });
+    });
+
+    document.querySelector('.example__element').addEventListener('dragover', (event) => {
+        event.preventDefault();
+    });
+
+    document.querySelector('.example__element').addEventListener('drop', (event) => {
+        event.preventDefault();
+        const draggedSrc = event.dataTransfer.getData('text/plain');
+        const parts = draggedSrc.split('/');
+        const draggedItemSrc = parts[parts.length - 1];
+        var draggedUrl = event.dataTransfer.getData('text/plain');
+        var targetElement = document.querySelector('img[src="' + draggedUrl + '"]');
+        
+        
+        var targetElement = Array.from(document.querySelectorAll('img')).find(function(element) {
+            return element.src === draggedUrl;
+        });
+
+        if (draggedItemSrc == `${exampleArray[exampleCounter]}.png`) {
+            targetElement.style.backgroundColor = '#49ca54'
+
+            example.src = `./img/${exampleArray[exampleCounter]}.png`
+            exampleCounter++;
+
+            if (exampleCounter == 25) {
+                isWin = true;
+                clearInterval(intervalTimer);
+                warning.textContent = 'Ти преміг';
+                warning.style.backgroundColor = '#49ca54';
+                warning.style.color = '#ffffff';
+                const newLi = document.createElement('li');
+                newLi.textContent = `Гра №${countGame}  Результат: ${60 - timer}cек`;
+                winList.appendChild(newLi);
+                return;
+            }
+
+            example.src = `./img/${exampleArray[exampleCounter]}.png`;
+        } else {
+            countTry--;
+            if (countTry <= 0) {
+                loseHandler();
+            }
+            warningTry.textContent = `${countTry} спроби`;
+        }
+    });
+
+
+
     document.querySelectorAll('.game__element > img').forEach(item => {
         item.addEventListener('click', () => {
             if (isLose || isWin) return
