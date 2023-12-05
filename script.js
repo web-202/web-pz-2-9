@@ -22,7 +22,7 @@ $(document).ready(function () {
 
     uniqueRandomImages.forEach((randomIndex) => {
         const $draggableImage = $("<img>");
-        $draggableImage.attr("src", `images/image_${imageOrder[randomIndex]}.png`);
+        $draggableImage.attr("src", `image_${imageOrder[randomIndex]}.png`);
         $draggableImage.addClass("image");
         $draggableImage.attr("draggable", true);
         $draggableImage.on("dragstart", dragStart);
@@ -33,7 +33,7 @@ $(document).ready(function () {
     for (let i = 0; i < 25; i++) {
         const imageIndex = imageOrder[i];
         const $image = $("<img>");
-        $image.attr("src", `images/image_${imageIndex}.png`);
+        $image.attr("src", `image_${imageIndex}.png`);
         $image.attr("draggable", false);
         $gameBoard.append($image);
         $image.on("dragover", dragOver);
@@ -106,7 +106,7 @@ $(document).ready(function () {
         for (let i = 0; i < 10; i++) {
             const randomIndex = Math.floor(Math.random() * 25);
             const $draggableImage = $("<img>");
-            $draggableImage.attr("src", `images/image_${imageOrder[randomIndex]}.png`);
+            $draggableImage.attr("src", `image_${imageOrder[randomIndex]}.png`);
             $draggableImage.addClass("image");
             $draggableImage.attr("draggable", true);
             $draggableImage.on("dragstart", dragStart);
@@ -117,7 +117,7 @@ $(document).ready(function () {
         for (let i = 0; i < 25; i++) {
             const imageIndex = imageOrder[i];
             const $image = $("<img>");
-            $image.attr("src", `images/image_${imageIndex}.png`);
+            $image.attr("src", `image_${imageIndex}.png`);
             $image.attr("draggable", false);
             $gameBoard.append($image);
             $image.on("dragover", dragOver);
