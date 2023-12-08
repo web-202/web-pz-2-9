@@ -1,0 +1,101 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.screen1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  gap: 20px;
+}
+
+.button-brawn {
+  background: linear-gradient(#2E2920FF, #2E2920FF);
+  border-style: none;
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  color: greenyellow;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button-brawn:hover {
+  transform: scale(1.1);
+}
+
+.title-black {
+  font-size: 45px;
+  font-weight: bold;
+}
+
+.screen2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.screen2__l1 {
+  width: 1fr;
+  height: 100px;
+}
+
+.screen2__l2 {
+  width: 1fr;
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+
+.gameArea {
+  display: grid;
+  grid-template-columns: repeat(5, 90px);
+  grid-template-rows: repeat(5, 90px);
+  border: 1px black solid;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell {
+  width: 100%;
+  height: 100%;
+  border: 1px black solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: auto;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.buttonArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
+.buttonArea div {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.draggable {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  cursor: grab;
+}
+
