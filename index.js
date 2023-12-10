@@ -48,10 +48,46 @@ function startGame() {
 }
 
 function setCard(image) {
-  $("#card").remove()
-  $(".right-container").prepend($(`<div id="card" class="cell"></div>`))
-  $("#card").append(`<img src='screen/${image}'>`)
-  $("#card").draggable()
+  $("#card").remove();
+  const card = $(`<div id="card" class="cell"></div>`);
+  card.append(`<img src='screen/${image}'>`);
+  $(".right-container").prepend(card);
+
+  card.draggable({
+    drag: function (event, ui) {
+      checkHover($(this));
+    },
+  });
+}
+
+function checkHover(draggableElement) {
+  const draggableImg = draggableElement.find('img');
+
+  $('.cell').each(function () {
+    const currentImg = $(this).find('img');
+
+    if (isHover(draggableImg, currentImg)) {
+      $(this).addClass('hovered');
+    } else {
+      $(this).removeClass('hovered');
+    }
+  });
+}
+
+function isHover(draggableImg, currentImg) {
+  const offset1 = draggableImg.offset();
+  const width1 = draggableImg.width();
+  const height1 = draggableImg.height();
+  const offset2 = currentImg.offset();
+  const width2 = currentImg.width();
+  const height2 = currentImg.height();
+
+  return !(
+    offset2.left > offset1.left + width1 ||
+    offset2.left + width2 < offset1.left ||
+    offset2.top > offset1.top + height1 ||
+    offset2.top + height2 < offset1.top
+  );
 }
 
 function containContainer(arr) {
@@ -64,29 +100,54 @@ function containContainer(arr) {
 }
 
 function createCell(image) {
-  const imgPath = "screen/" + image
-  return $(`<div class='cell'><img src='${imgPath}' /></div>`).droppable({
+  const imgPath = "screen/" + image;
+  const cell = $(`<div class='cell'><img src='${imgPath}' /></div>`);
+
+  cell.hover(
+    function () {
+      $(this).addClass("hovered");
+    },
+    function () {
+      $(this).removeClass("hovered");
+    }
+  );
+
+  return cell.droppable({
     drop: function (e, ui) {
-      if (ui.draggable.children()[0].src.includes(imgPath)) {
-        count++
+      const draggedImageSrc = ui.draggable.find("img").attr("src");
+
+      if (draggedImageSrc === imgPath) {
+        replaceWithGreySquare($(this));
+        count++;
       } else {
-        $("#dialog").text(`Ви програли`)
-        $("#dialog").dialog()
-        startGame()
+        $("#dialog").text(`Ви програли`);
+        $("#dialog").dialog();
+        startGame();
         return;
       }
 
-      if(count === 10) {
-        $("#dialog").text(`Ви виграли`)
-        $("#dialog").dialog()
-        return
+      if (count === 10) {
+        $("#dialog").text(`Ви виграли`);
+        $("#dialog").dialog();
+        return;
       }
 
-      setCard(playCards.pop())
-    }
-  })
+      setCard(playCards.pop());
+    },
+  });
 }
 
+function replaceWithGreySquare(cell) {
+  const img = cell.find('img');
+  img.hide();
+
+  const greySquare = $("<div class='grey-square'></div>");
+  cell.append(greySquare);
+
+  greySquare.draggable({
+    revert: "invalid",
+  });
+}
 
 function createNewImages() {
   const arr = []
@@ -102,3 +163,5 @@ function createNewImages() {
 function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
+
+
