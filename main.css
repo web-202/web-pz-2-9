@@ -6,10 +6,10 @@ body{
     height: 50vh;
 }
 h1{
-    color: blue;
+    color: rgb(49, 9, 124);
 }
 button{
-    background-color: lightblue;
+    background-color: rgb(1, 8, 10);
     border-radius: 5px;
     height: 30px;
     padding: 5px;

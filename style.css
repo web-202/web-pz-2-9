@@ -22,7 +22,7 @@ body {
     gap: 10px;
     width: 544px;
     height: 544px;
-    border: 2px solid #000;
+    border: 2px solid #0a0404;
 }
 #game-board .cell{
     width: 100px;
@@ -50,6 +50,7 @@ body {
     height: 60px;
     margin-bottom: 10px;
     cursor: pointer;
+    border: #000;
 }
 
 .cell{
@@ -61,5 +62,5 @@ body {
 button{
     padding: 10px;
     border-radius: 5px;
-    background-color: red;
+    background-color: rgb(172, 153, 153);
 }

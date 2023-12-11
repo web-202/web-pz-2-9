@@ -12,6 +12,7 @@ $(document).ready(function () {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
+            
         }
     }
 
@@ -40,6 +41,7 @@ $(document).ready(function () {
         $image.on("dragenter", dragEnter);
         $image.on("dragleave", dragLeave);
         $image.on("drop", drop);
+        
     }
 
     $resetButton.on("click", function () {
@@ -70,144 +72,13 @@ $(document).ready(function () {
         const $cell = $(this);
 
         if ($cell.is("img")) {
+           
             const cellSrc = $cell.attr("src");
 
             if (gameImages.includes(draggedImageSrc) && draggedImageSrc === cellSrc) {
                 alert("Спіставленно правильно");
                 gameImages.splice(gameImages.indexOf(draggedImageSrc), 1);
                 currentImageIndex++;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
-                
                 $cell.css("border", "5px solid purple")
                 $cell.css("background-color", "purple");
 
@@ -216,12 +87,15 @@ $(document).ready(function () {
                         $(this).remove();
                     }
                 });
+                
 
                 if (currentImageIndex === 10) {
                     alert("Вітаю, ви перемогли!");
                 }
             } else {
                 alert("Не правильно співставили");
+                $cell.css("border", "5px solid red")
+                $cell.css("background-color", "red");
             }
         }
     }
