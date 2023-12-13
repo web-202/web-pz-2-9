@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #startButton {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      margin: 10px;
+    }
+
+    #gameTitle {
+      font-size: 1.5em;
+      margin: 20px;
+    }
+
+    #gameContainer {
+      display: none;
+    }
+
+    #gameBoard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px;
+    }
+
+    .cell {
+      width: 80px;
+      height: 80px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .draggable-image {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+
+    #startAgainButton {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="startScreen">
+  <h1 id="gameTitle">Memory Game</h1>
+  <button id="startButton">Start Game</button>
+</div>
+
+<div id="gameContainer">
+  <div id="gameBoard"></div>
+  <div id="gameControls">
+    <button id="startAgainButton">Start Again</button>
+    <img src="" alt="Drag Me" id="draggableImage" class="draggable-image">
+  </div>
+</div>
+
+<div id="errorDialog" title="Error">
+  <p>Не вірний вибір</p>
+</div>
+
+<div id="congratulationsDialog" title="Congratulations">
+  <p>Вітаю, ви виграли!</p>
+</div>
+
+<script>
+  const categories = ['weapons', 'tanks', 'military-equipment'];
+  let currentCategory;
+  let correctMatches = 0;
+  let rigth;
+  $(document).ready(function () {
+    $('#startButton').on('click', function () {
+      startGame();
+    });
+
+    $('#startAgainButton').on('click', function () {
+      resetGame();
+    });
+
+    createDialogs();
+
+    $('#draggableImage').draggable({
+      revert: 'invalid',
+      helper: 'clone',
+      cursor: 'move'
+    });
+
+    $('#gameBoard').droppable({
+      accept: '.draggable-image',
+      drop: function (event, ui) {
+        checkMatch(ui.helper);
+      }
+    });
+  });
+
+  function startGame() {
+    $('#startScreen').hide();
+    $('#gameContainer').show();
+    currentCategory = getRandomCategory();
+    generateGameBoard();
+    resetGame();
+  }
+
+  function resetGame() {
+    correctMatches = 0;
+    updateDraggableImage();
+    generateGameBoard()
+  }
+
+  function generateGameBoard() {
+    const gameBoard = $('#gameBoard');
+    gameBoard.empty();
+
+    const images = getShuffledImages(currentCategory);
+    for (let i = 0; i < 25; i++) {
+      const cell = $('<img>').addClass('cell').attr('src', images[i]);
+      cell.attr('onmouseup', `SetImage('${images[i]}')`)
+      gameBoard.append(cell);
+    }
+  }
+  function SetImage(some) {
+    rigth = some
+    console.log(rigth)
+  }
+  function updateDraggableImage() {
+    const draggableImage = $('#draggableImage');
+    const randomImage = getRandomImage(currentCategory);
+    // draggableImage.attr('src', `path/to/${currentCategory}/${randomImage}.png`);
+    draggableImage.attr('src', `./img/${randomImage}.png`);
+  }
+
+  function checkMatch(draggable) {
+    const droppedImage = $(draggable).attr('src');
+    console.log(droppedImage)
+    console.log(rigth)
+    if (droppedImage === rigth) {
+      correctMatches++;
+      console.log(correctMatches)
+      if (correctMatches === 1) {
+        alert('You win')
+        startGame()
+      } else {
+        alert('Error')
+        updateDraggableImage();
+      }
+    } else {
+      alert('Error')
+    }
+  }
+
+  function showCongratulationsDialog() {
+    $('#congratulationsDialog').dialog({
+      modal: true,
+      buttons: {
+        Ok: function () {
+          $(this).dialog('close');
+          resetGame();
+        }
+      }
+    });
+  }
+
+  function showErrorDialog() {
+    $('#errorDialog').dialog({
+      modal: true,
+      buttons: {
+        Ok: function () {
+          $(this).dialog('close');
+        }
+      }
+    });
+  }
+
+  function getRandomCategory() {
+    return categories[Math.floor(Math.random() * categories.length)];
+  }
+
+  function getRandomImage(category) {
+    const imagesCount = 25; // Assuming you have 10 images in each category
+    return Math.floor(Math.random() * imagesCount) + 1;
+  }
+
+  function getShuffledImages(category) {
+    const imagesCount = 25;
+    const imagesArray = Array.from({ length: imagesCount }, (_, index) => index + 1);
+    const shuffledImages = [];
+
+    for (let i = 0; i < imagesCount; i++) {
+      const randomIndex = Math.floor(Math.random() * imagesArray.length);
+      const randomImage = imagesArray.splice(randomIndex, 1)[0];
+      shuffledImages.push(`./img/${randomImage}.png`);
+    }
+
+    return [...shuffledImages, ...shuffledImages];
+  }
+
+  function createDialogs() {
+    $('#errorDialog').dialog({
+      autoOpen: false,
+      resizable: false,
+      modal: true,
+      buttons: {
+        Ok: function () {
+          $(this).dialog('close');
+        }
+      }
+    });
+
+    $('#congratulationsDialog').dialog({
+      autoOpen: false,
+      resizable: false,
+      modal: true,
+      buttons: {
+        Ok: function () {
+          $(this).dialog('close');
+        }
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
