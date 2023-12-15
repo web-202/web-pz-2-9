@@ -30,7 +30,7 @@ $(document).ready(function () {
         gameImages.push($draggableImage.attr("src"));
     });
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 9; i++) {
         const imageIndex = imageOrder[i];
         const $image = $("<img>");
         $image.attr("src", `images/image_${imageIndex}.png`);
@@ -77,7 +77,7 @@ $(document).ready(function () {
                 gameImages.splice(gameImages.indexOf(draggedImageSrc), 1);
                 currentImageIndex++;
 
-                $cell.attr("src", "");
+                $cell.attr("src", "images/OIP.jpg");
                 $cell.css("background-color", "lightgray");
 
                 $(".image").each(function () {
