@@ -99,6 +99,18 @@ $(document).ready(function () {
             }
         }
     }
+    function dragEnter(event) {
+        event.preventDefault();
+        $gameBoard.addClass("hovered");
+        $(this).css("border", "2px dashed green"); 
+    }
+    function dragLeave(event) {
+        $gameBoard.removeClass("hovered");
+        $(this).css("border", "none"); 
+    }
+    $image.on("mouseenter", dragEnter);
+    $image.on("mouseleave", dragLeave);
+            
 
     function resetGame() {
         $gameBoard.empty();
