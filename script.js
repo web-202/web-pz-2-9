@@ -30,7 +30,7 @@ $(document).ready(function () {
         gameImages.push($draggableImage.attr("src"));
     });
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 9; i++) {
         const imageIndex = imageOrder[i];
         const $image = $("<img>");
         $image.attr("src", `image_${imageIndex}.png`);
@@ -73,25 +73,26 @@ $(document).ready(function () {
             const cellSrc = $cell.attr("src");
 
             if (gameImages.includes(draggedImageSrc) && draggedImageSrc === cellSrc) {
-                alert("Спіставленно правильно");
+                alert("Спіставлено правильно");
                 gameImages.splice(gameImages.indexOf(draggedImageSrc), 1);
                 currentImageIndex++;
-
-                $cell.attr("src", "");
+            
+                // $cell.attr("src", ""); // This line is removed, so the image remains in place
                 $cell.css("background-color", "lightgray");
-
+            
                 $(".image").each(function () {
                     if ($(this).attr("src") === draggedImageSrc) {
                         $(this).remove();
                     }
                 });
-
+            
                 if (currentImageIndex === 10) {
                     alert("Вітаю, ви перемогли!");
                 }
             } else {
                 alert("Не правильно співставили");
             }
+            
         }
     }
 
@@ -114,7 +115,7 @@ $(document).ready(function () {
             gameImages.push($draggableImage.attr("src"));
         }
 
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 9; i++) {
             const imageIndex = imageOrder[i];
             const $image = $("<img>");
             $image.attr("src", `image_${imageIndex}.png`);
