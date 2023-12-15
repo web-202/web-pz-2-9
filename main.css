@@ -1,0 +1,19 @@
+body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 50vh;
+}
+h1{
+    color: blue;
+}
+button{
+    background-color: lightblue;
+    border-radius: 5px;
+    height: 30px;
+    padding: 5px;
+}
+a{
+    padding: 5px;
+}
