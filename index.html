@@ -72,11 +72,11 @@
   </div>
 </div>
 
-<div id="errorDialog" title="Error">
+<div id="errorDialog" title="Error" style="display: none">
   <p>Не вірний вибір</p>
 </div>
 
-<div id="congratulationsDialog" title="Congratulations">
+<div id="congratulationsDialog" title="Congratulations" style="display: none">
   <p>Вітаю, ви виграли!</p>
 </div>
 
@@ -94,7 +94,7 @@
       resetGame();
     });
 
-    createDialogs();
+    // createDialogs();
 
     $('#draggableImage').draggable({
       revert: 'invalid',
@@ -102,12 +102,6 @@
       cursor: 'move'
     });
 
-    $('#gameBoard').droppable({
-      accept: '.draggable-image',
-      drop: function (event, ui) {
-        checkMatch(ui.helper);
-      }
-    });
   });
 
   function startGame() {
@@ -131,14 +125,25 @@
     const images = getShuffledImages(currentCategory);
     for (let i = 0; i < 25; i++) {
       const cell = $('<img>').addClass('cell').attr('src', images[i]);
-      cell.attr('onmouseup', `SetImage('${images[i]}')`)
+      cell.attr('id', images[i])
+      $(cell).droppable({
+        accept: '.draggable-image',
+        drop: function (event, ui) {
+          rigth = images[i]
+          checkMatch(ui.helper)
+          console.log(rigth + 'qwe')
+        }
+      })
+      // cell.attr('onmouseup', `SetImage('${images[i]}')`)
       gameBoard.append(cell);
     }
   }
+
   function SetImage(some) {
     rigth = some
     console.log(rigth)
   }
+
   function updateDraggableImage() {
     const draggableImage = $('#draggableImage');
     const randomImage = getRandomImage(currentCategory);
@@ -154,14 +159,15 @@
       correctMatches++;
       console.log(correctMatches)
       if (correctMatches === 1) {
-        alert('You win')
+        showCongratulationsDialog()
+        // alert('You win')
         startGame()
       } else {
         alert('Error')
         updateDraggableImage();
       }
     } else {
-      alert('Error')
+      showErrorDialog()
     }
   }
 
@@ -199,7 +205,7 @@
 
   function getShuffledImages(category) {
     const imagesCount = 25;
-    const imagesArray = Array.from({ length: imagesCount }, (_, index) => index + 1);
+    const imagesArray = Array.from({length: imagesCount}, (_, index) => index + 1);
     const shuffledImages = [];
 
     for (let i = 0; i < imagesCount; i++) {
@@ -211,29 +217,29 @@
     return [...shuffledImages, ...shuffledImages];
   }
 
-  function createDialogs() {
-    $('#errorDialog').dialog({
-      autoOpen: false,
-      resizable: false,
-      modal: true,
-      buttons: {
-        Ok: function () {
-          $(this).dialog('close');
-        }
-      }
-    });
-
-    $('#congratulationsDialog').dialog({
-      autoOpen: false,
-      resizable: false,
-      modal: true,
-      buttons: {
-        Ok: function () {
-          $(this).dialog('close');
-        }
-      }
-    });
-  }
+  // function createDialogs() {
+  //   $('#errorDialog').dialog({
+  //     autoOpen: false,
+  //     resizable: false,
+  //     modal: true,
+  //     buttons: {
+  //       Ok: function () {
+  //         $(this).dialog('close');
+  //       }
+  //     }
+  //   });
+  //
+  //   $('#congratulationsDialog').dialog({
+  //     autoOpen: false,
+  //     resizable: false,
+  //     modal: true,
+  //     buttons: {
+  //       Ok: function () {
+  //         $(this).dialog('close');
+  //       }
+  //     }
+  //   });
+  // }
 </script>
 
 </body>
