@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 100px;
-  gap: 20px;
+  gap: 21px;
 }
 
 .button-brawn {
@@ -75,6 +75,17 @@
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  transition: border-color 0.3s ease-in-out;
+  background-size: cover;
+}
+
+.cell:hover {
+  border-color: 8px yellow solid; /* Зміна кольору бортиків при наведенні миші */
+
+}
+.emptyCell {
+  background-color: blue;
+  pointer-events: none; /* Вимикаємо події миші для пустої клітинки */
 }
 
 .buttonArea {
@@ -99,12 +110,11 @@
   cursor: grab;
 }
 
-/*  Нове  */
-
-.highlight-border {
-  border: 4px solid red;
-}
-
 .transparent-cell {
   opacity: 0.25; /* Налаштуйте прозорість за потребою */
 }
+
+.highlight-border {
+  border: 4px solid red; /* Змініть стиль бордера за вашими потребами */
+}
+

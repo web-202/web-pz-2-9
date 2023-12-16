@@ -57,15 +57,25 @@ const generateCells = () => {
         `<img class="cell" src="./img/${imgSrc}.jpg" alt="img"/>`
       ).droppable({
         drop: function (event, ui) {
-          
           imgSrc = `./img/${imgSrc}.jpg`;
           const draggedImage = ui.draggable;
           const draggedSrc = draggedImage.attr("src");
+          console.log(draggedSrc);
+          console.log(imgSrc);
 
           if (draggedSrc === imgSrc) {
             correctImageCount++;
             countAnswers.textContent = correctImageCount;
             generateFindImg();
+            const droppedCell = $(this);
+
+            droppedCell.attr("src", "");
+
+
+            droppedCell.css("background-color", "green");
+            $(".cell").removeClass("transparent-cell");
+
+            $(".cell").removeClass("highlight-border");
           } else {
             alert("Не вірний вибір!!");
             generateCells();
@@ -74,18 +84,12 @@ const generateCells = () => {
             alert("Вітаю ви виграли");
             generateCells();
           }
-          const isColliding = checkCollision(draggedImage, currentImage);
-
-          if (isColliding) {
-            // Видаляємо зображення з поля
-            $(this).remove();
-          }
           $(this).removeClass("transparent-cell"); // При скиданні картинки видаляємо прозорість
         },
         over: function (event, ui) {
           $(this).addClass("highlight-border"); // Додаємо бордер при наведенні на об'єкт
           $(".cell").addClass("transparent-cell"); // Додаємо прозорість всім елементам
-          $(this).removeClass("transparent-cell"); // Забираємо прозорість у поточного елемента
+          $(this).removeClass("transparent-cell"); // При наведенні на елемент видаляємо його прозорість
         },
         out: function (event, ui) {
           $(this).removeClass("highlight-border"); // Видаляємо бордер при виході з об'єкта
@@ -97,21 +101,6 @@ const generateCells = () => {
   }
   console.log(listOfName);
   generateFindImg();
-};
-
-const checkCollision = (draggedImage, currentImage) => {
-  const draggedOffset = draggedImage.offset();
-  const currentOffset = currentImage.offset();
-
-  const draggedWidth = draggedImage.width();
-  const currentWidth = currentImage.width();
-
-  return (
-    draggedOffset.left < currentOffset.left + currentWidth &&
-    draggedOffset.left + draggedWidth > currentOffset.left &&
-    draggedOffset.top < currentOffset.top + currentWidth &&
-    draggedOffset.top + draggedWidth > currentOffset.top
-  );
 };
 
 const generateFindImg = () => {
